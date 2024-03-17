@@ -3,8 +3,7 @@ import ssl
 import datetime
 #from flask import Flask
 from bs4 import BeautifulSoup
-#app = Flask("web")
-#@app.route('/')
+
 
 domains_url = [
 "www.dermaglos.us",
