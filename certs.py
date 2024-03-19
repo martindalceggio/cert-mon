@@ -21,15 +21,60 @@ def get_certificate_info(domain):
         return None
 
 def generate_html(certificates):
-    html = "<html><head><title>SSL Certificate Info</title></head><body><table>"
-    html += "<tr><th>Domain</th><th>Not Before</th><th>Not After</th><th>Issuer</th><th>Days Left</th></tr>"
+#    html = "<html><head><title>SSL Certificate Info</title></head><body><table>"
+    html = """<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSL Certificate Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <table>"""
+#    html += "<tr><th>Domain</th><th>Not Before</th><th>Not After</th><th>Issuer</th><th>Days Left</th></tr>"
+    html += """<thead>
+            <tr>
+                <th>Domain</th>
+                <th>Not Before</th>
+                <th>Issuer</th>
+                <th>Days Left</th>
+            </tr>
+        </thead>
+        <tbody>"""
     for domain, cert_info in certificates.items():
         not_before = datetime.datetime.strptime(cert_info["notBefore"], "%b %d %H:%M:%S %Y %Z")
         not_after = datetime.datetime.strptime(cert_info["notAfter"], "%b %d %H:%M:%S %Y %Z")
         days_left = (not_after - datetime.datetime.now()).days
         Issuer = cert_info["issuer"]
-        html += f"<tr><td>{domain}</td><td>{not_before}</td><td>{not_after}</td><td>{Issuer}</td><td>{days_left}</td></tr>"
-    html += "</table></body></html>"
+        html += f"<tr><td>{domain}</td><td>{not_before}</td><td>{Issuer}</td><td>{days_left}</td></tr>"
+#    html += "</table></body></html>"
+    html += """</tbody>
+    </table>
+</body>
+</html>"""
     return html
 
 # Lista de dominios
